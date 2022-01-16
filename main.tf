@@ -1,7 +1,7 @@
 terraform {
 
   required_version = ">=0.12"
-  backend "azure" {}
+  backend "azurerm" {}
   
   required_providers {
     azurerm = {
@@ -23,13 +23,13 @@ resource "azurerm_resource_group" "rg-mbrugnon-lab" {
 resource "azurerm_network_security_group" "mbrugnonlab-nsg" {
   name                = "mbrugnonlab-nsg"
   location            = var.resource_group_location
-  resource_group_name = "rg-mbrugnon-lab"
+  resource_group_name = ${azurerm_resource_group.rg-mbrugnon-lab.name}
 }
 
 resource "azurerm_virtual_network" "mbrugnonlab-vnet" {
   name                = "mbrugnonlab-vnet"
   location            = var.resource_group_location
-  resource_group_name = "rg-mbrugnon-lab"
+  resource_group_name = ${azurerm_resource_group.rg-mbrugnon-lab.name}
   address_space       = ["10.0.0.0/16"]
 
   subnet {
