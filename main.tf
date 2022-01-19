@@ -55,13 +55,13 @@ resource "azurerm_network_interface" "mbrugnonlab-nic" {
     name                      = "mbrugnonlab-nic"
     location                  = "eastus"
     resource_group_name       = azurerm_resource_group.rg-mbrugnon-lab.name
-    depends_on = [
-      azurerm_virtual_network.mbrugnonlab-vnet
-    ]
+    #depends_on = [
+    #  azurerm_virtual_network.mbrugnonlab-vnet
+    #]
 
     ip_configuration {
         name                          = "mbrugnonlab-nic-cfg"
-        subnet_id                     = azurerm_subnet.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id
+        subnet_id                     = data.azurerm_subnet.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id
         private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.mbrugnonlab-pubip.id
     }
@@ -76,9 +76,9 @@ resource "azurerm_network_interface_security_group_association" "nsg-assoc1" {
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "mikesVM" {
     name                  = "mikesVM"
-    depends_on = [
-      azurerm_virtual_network.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id
-    ]
+    #    depends_on = [
+    #  azurerm_virtual_network.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id
+    #]
     location              = "eastus"
     resource_group_name   = azurerm_resource_group.rg-mbrugnon-lab.name
     network_interface_ids = azurerm_network_interface.mbrugnonlab-nic.id
