@@ -44,7 +44,7 @@ resource "azurerm_virtual_network" "mbrugnonlab-vnet" {
 
 # Create public IPs
 resource "azurerm_public_ip" "mbrugnonlab-pubip" {
-    name                         = "mbrugnonlab-pubig"
+    name                         = "mbrugnonlab-pubip"
     location                     = "eastus"
     resource_group_name          = azurerm_resource_group.rg-mbrugnon-lab.name
     allocation_method            = "Dynamic"
@@ -58,7 +58,7 @@ resource "azurerm_network_interface" "mbrugnonlab-nic" {
 
     ip_configuration {
         name                          = "mbrugnonlab-nic-cfg"
-        subnet_id                     = azurerm_subnet.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id
+        subnet_id                     = ${azurerm_subnet.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id}
         private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.mbrugnonlab-pubip.id
     }
@@ -71,7 +71,7 @@ resource "azurerm_network_interface_security_group_association" "nsg-assoc1" {
 }
 
 # Create virtual machine
-resource "azurerm_linux_virtual_machine" "myterraformvm" {
+resource "azurerm_linux_virtual_machine" "mikesVM" {
     name                  = "mikesVM"
     location              = "eastus"
     resource_group_name   = azurerm_resource_group.rg-mbrugnon-lab.name
