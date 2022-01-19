@@ -73,9 +73,12 @@ resource "azurerm_network_interface_security_group_association" "nsg-assoc1" {
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "mikesVM" {
     name                  = "mikesVM"
+    depends_on {
+      azurerm_virtual_network.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id
+    }
     location              = "eastus"
     resource_group_name   = azurerm_resource_group.rg-mbrugnon-lab.name
-    network_interface_ids = [azurerm_network_interface.mbrugnonlab-nic.id]
+    network_interface_ids = azurerm_network_interface.mbrugnonlab-nic.id
     size                  = "Standard_DS1_v2"
 
     os_disk {
