@@ -41,6 +41,7 @@ resource "azurerm_subnet" "mbrugnonlab-snet1" {
   address_prefix = "10.0.1.0/24"
   location            = var.resource_group_location
   resource_group_name = azurerm_resource_group.rg-mbrugnon-lab.name
+  virtual_network_name = azurerm_virtual_network.mbrugnonlab-vnet.name
 }
 
 # Create network interface for VM
@@ -51,7 +52,7 @@ resource "azurerm_network_interface" "mbrugnonlab-nic" {
 
     ip_configuration {
         name                          = "mbrugnonlab-nic-cfg"
-        subnet_id                     = data.azurerm_subnet.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id
+        subnet_id                     = azurerm_subnet.mbrugnonlab-snet1.id
         private_ip_address_allocation = "Dynamic"
     }
 }
