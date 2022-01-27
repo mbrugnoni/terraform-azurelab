@@ -73,6 +73,7 @@ resource "azurerm_linux_virtual_machine" "mikesVM" {
     computer_name  = "mikesVM"
     admin_username = "mbrugnon"
     admin_password = "Temp12341234"
+    disable_password_authentication = false
     size           = "Standard_DS1_v2"
 
     os_disk {
