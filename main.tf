@@ -63,32 +63,28 @@ resource "azurerm_network_interface_security_group_association" "mbrugnonlab-nsg
 }
 
 # Create virtual machine
-#resource "azurerm_linux_virtual_machine" "mikesVM" {
-#    name                  = "mikesVM"
-#    #    depends_on = [
-#    #  azurerm_virtual_network.mbrugnonlab-vnet.subnet.mbrugnonlab-snet1.id
-#    #]
-#    location              = "eastus"
-#    resource_group_name   = azurerm_resource_group.rg-mbrugnon-lab.name
-#    network_interface_ids = azurerm_network_interface.mbrugnonlab-nic.id
-#    size                  = "Standard_DS1_v2"
-#
-#    os_disk {
-#        name              = "myOsDisk"
-#        caching           = "ReadWrite"
-#        storage_account_type = "Premium_LRS"
-#    }
-#
-#    source_image_reference {
-#        publisher = "Canonical"
-#        offer     = "UbuntuServer"
-#        sku       = "18.04-LTS"
-#        version   = "latest"
-#    }
-#
-#    computer_name  = "mikesVM"
-#    admin_username = "mbrugnon"
-#    admin_password = "Temp12341234"
-#    disable_password_authentication = true
+resource "azurerm_linux_virtual_machine" "mikesVM" {
+    name                  = "mikesVM"
+    location              = azurerm_resource_group.rg-mbrugnon-lab.location
+    resource_group_name   = azurerm_resource_group.rg-mbrugnon-lab.name
+    network_interface_ids =  [ 
+      azurerm_network_interface.mbrugnonlab-nic.id,
+    ]
+    computer_name  = "mikesVM"
+    admin_username = "mbrugnon"
+    admin_password = "Temp12341234"
+    size           = "Standard_DS1_v2"
 
-#}
+    os_disk {
+        caching           = "none"
+        storage_account_type = "Standard_LRS"
+    }
+
+    source_image_reference {
+        publisher = "Canonical"
+        offer     = "UbuntuServer"
+        sku       = "18.04-LTS"
+        version   = "latest"
+    }
+
+}
