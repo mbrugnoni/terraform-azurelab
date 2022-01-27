@@ -76,7 +76,7 @@ resource "azurerm_linux_virtual_machine" "mikesVM" {
     size           = "Standard_DS1_v2"
 
     os_disk {
-        caching           = "none"
+        caching           = "None"
         storage_account_type = "Standard_LRS"
     }
 
