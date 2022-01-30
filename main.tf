@@ -1,7 +1,6 @@
 terraform {
 
-  #  required_version = ">=0.12"
-  backend "azure" {}
+  backend "azurerm" {}
   
   required_providers {
     azurerm = {
@@ -15,7 +14,7 @@ provider "azurerm" {
   features {}
 }
 
-# Create resource group if it doesn't exist
+# Create resource group
 resource "azurerm_resource_group" "rg-mbrugnon-lab" {
   name      = "rg-mbrugnon-lab"
   location  = var.resource_group_location
@@ -28,7 +27,7 @@ resource "azurerm_network_security_group" "mbrugnonlab-nsg" {
   resource_group_name = azurerm_resource_group.rg-mbrugnon-lab.name
 }
 
-# Create virtual network - with subnet included(could be done separately)
+# Create virtual network
 resource "azurerm_virtual_network" "mbrugnonlab-vnet" {
   name                = "mbrugnonlab-vnet"
   location            = var.resource_group_location
@@ -36,6 +35,7 @@ resource "azurerm_virtual_network" "mbrugnonlab-vnet" {
   address_space       = ["10.0.0.0/16"]
 }
 
+# Create subnet
 resource "azurerm_subnet" "mbrugnonlab-snet1" {
   name           = "mbrugnonlab-snet1"
   address_prefix = "10.0.1.0/24"
@@ -70,10 +70,12 @@ resource "azurerm_linux_virtual_machine" "mikesVM" {
     network_interface_ids =  [ 
       azurerm_network_interface.mbrugnonlab-nic.id,
     ]
-    computer_name  = "mikesVM"
-    admin_username = "mbrugnon"
-    admin_password = "Temp12341234"
-    disable_password_authentication = false
+
+    admin_ssh_key {
+      username   = "mbrugnon"
+      public_key = file("id_rsa.pub")
+    }
+
     size           = "Standard_DS1_v2"
 
     os_disk {
