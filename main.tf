@@ -67,6 +67,7 @@ resource "azurerm_linux_virtual_machine" "mikesVM" {
     name                  = "mikesVM"
     location              = azurerm_resource_group.rg-mbrugnon-lab.location
     resource_group_name   = azurerm_resource_group.rg-mbrugnon-lab.name
+    admin_username = "mbrugnon"
     network_interface_ids =  [ 
       azurerm_network_interface.mbrugnonlab-nic.id,
     ]
