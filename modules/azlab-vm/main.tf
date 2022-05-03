@@ -14,7 +14,7 @@ provider "azurerm" {
 
 # Create resource group
 resource "azurerm_resource_group" "rg-temp-lab" {
-  name      = var.rg_name 
+  name      = "rg-temp-lab" 
   location  = var.resource_group_location
 }
 
@@ -36,7 +36,7 @@ resource "azurerm_virtual_network" "vnet-temp-lab" {
 # Create subnet
 resource "azurerm_subnet" "snet-temp-lab" {
   name           = "snet1-temp-lab"
-  address_prefix = "172.1.1.0/24"
+  address_prefixes = ["172.1.1.0/24"]
   resource_group_name = azurerm_resource_group.rg-temp-lab.name
   virtual_network_name = azurerm_virtual_network.vnet-temp-lab.name
 }
@@ -75,7 +75,7 @@ resource "azurerm_linux_virtual_machine" "labVM1" {
       public_key = file("id_rsa.pub")
     }
 
-    size           = "Standard_B1"
+    size           = "Standard_B1s"
 
     os_disk {
         caching           = "None"

@@ -1,3 +1,3 @@
 module "azlab" {
-  source = "modules/azlab-vm"
+  source = "./modules/azlab-vm"
 }
